@@ -33,6 +33,7 @@ def task1():
 
 
 def clean(review):
+    # regex to clean alphanumeric - values not listed and setting to lower
     review = (re.sub('[^a-zA-Z0-9\s]', '', review)).lower()
     return review
 
@@ -88,6 +89,7 @@ def task5(review, positive_likelihood, negative_likelihood, priors):
     negative_count = 0
     for word in review_list:
         if word in positive_likelihood:
+            # log is used as number gets too small in some cases
             positive_count += math.log(positive_likelihood[word])
         if word in negative_likelihood:
             negative_count += math.log(negative_likelihood[word])
@@ -174,6 +176,7 @@ def main():
     true_negative = 0
     false_negative = 0
     my_predictions = []
+    # so we can access the matching index in our sentiment
     i = 0
     for review in clean_test_data_reviews:
         likelihood_loop = task5(review, positive_likelihood, negative_likelihood, priors)
@@ -201,6 +204,7 @@ def main():
     print()
     print("Correct predictions: {}".format((true_positive+true_negative)/len(test_data_sentiment)))
     print()
+    # confusion matrix matches our true/false positive/negative values in a matrix
     confusion = metrics.confusion_matrix(test_data_sentiment, my_predictions)
     print("Confusion:\n {}".format(confusion))
 
